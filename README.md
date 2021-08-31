@@ -11,18 +11,18 @@
 ├─ iOS // iOS工程
 |  ├─ SDK   
 |  |  ├─ TXCopyrightedMedia.framework 
-|	 ├─ Demo  //iOS ame的Demo
+|  ├─ Demo  //iOS ame的Demo
 |  ├─ README.md //iOS文档
 └── Windows
 ```
 
 ## SDK 下载
 
-| 所属平台 | Zip下载                                                      | Demo运行说明                                                | SDK集成指引                                                 | API 列表                                                    |
-| -------- | ------------------------------------------------------------ | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
-| iOS      | [下载](https://liteav.sdk.qcloud.com/download/latest/TXLiteAVSDK_TRTC_iOS_latest.zip) | [DOC](https://cloud.tencent.com/document/product/647/32396) | [DOC](https://cloud.tencent.com/document/product/647/32173) | [API](https://cloud.tencent.com/document/product/647/32258) |
-| Android  | [下载](https://liteav.sdk.qcloud.com/download/latest/TXLiteAVSDK_TRTC_Android_latest.zip) | [DOC](https://cloud.tencent.com/document/product/647/32166) | [DOC](https://cloud.tencent.com/document/product/647/32175) | [API](https://cloud.tencent.com/document/product/647/32267) |
-| Win(C++) | [下载](https://liteav.sdk.qcloud.com/download/latest/TXLiteAVSDK_TRTC_Win_latest.zip) | [DOC](https://cloud.tencent.com/document/product/647/32397) | [DOC](https://cloud.tencent.com/document/product/647/32178) | [API](https://cloud.tencent.com/document/product/647/32268) |
+| 所属平台 | Zip下载                                                      | Demo运行说明                                                 | SDK集成指引                                                  | API 列表                                                     |
+| -------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| iOS      | [下载](https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/1.0.3/TXCopyrightedMedia-iOS-1.0.3.zip) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) | [API](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) |
+| Android  | [下载](https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/1.0.3/TXCopyRightedMedia-Android-1.0.3.zip) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [API](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) |
+| Win(C++) | [下载](https://liteav.sdk.qcloud.com/download/latest/TXLiteAVSDK_TRTC_Win_latest.zip) | [DOC](https://cloud.tencent.com/document/product/647/32397)  | [DOC](https://cloud.tencent.com/document/product/647/32178)  | [API](https://cloud.tencent.com/document/product/647/32268)  |
 
 ## Version 1.0.3 @ 2021.08.03
 

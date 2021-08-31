@@ -154,11 +154,21 @@ X-TC-Action: DescribeKTVMusicDetail
 
 ## 3.6 SDK接入
 ## 3.6.1 集成SDK
+##### Android
+a、拷贝TXCopyrightedMedia-release-1.0.1.aar 到 libs目录，添加依赖项：implementation(name:'TXCopyrightedMedia-release-1.0.1', ext:'aar')
+b、[参考此处集成TRTC SDK](https://cloud.tencent.com/document/product/647/32175)
+implementation 'com.tencent.liteav:LiteAVSDK_TRTC:latest.release'
+
+注意混淆
+```
+-keep class com.tencent.** { *; }
+```
+##### iOS
 a、集成版权曲库SDK(拷贝TXCopyrightedMedia.framework)到项目工程中并集成
 
 b、如果使用pod导入，则在podfile里面添加:
 ```
-pod 'TXCopyrightedMedia'
+pod 'TXCopyrightedMedia', :podspec => 'https://mediacloud-76607.gzc.vod.tencent-cloud.com/Podspec/TXCopyrightedMedia/1.0.1/TXCopyrightedMedia.podspec'
 ```
 c、[参考此处集成TRTC SDK](https://cloud.tencent.com/document/product/647/32173)
 
@@ -173,7 +183,7 @@ c、[参考此处集成TRTC SDK](https://cloud.tencent.com/document/product/647/
 **接口**
 
 ```java
-TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
+TXCopyrightedMedia copyrightedMedia = TXCopyrightedMedia.instance();
 ```
 
 
@@ -187,15 +197,16 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-[copyrightedMedia setLicense:licenseUrl key:key];
+copyrightedMedia.setLicense(Context context, String licenseUrl, String key);
 ```
 
 **参数说明**
 
 | 参数名     | 类型   | 描述                   |
 | ---------- | ------ | ---------------------- |
-| licenseUrl | NSString | 控制台生成的licenseUrl |
-| key        | NSString | 控制台生成的key        |
+| context | Context |  Context上下文|
+| licenseUrl | String | 控制台生成的licenseUrl |
+| key        | String | 控制台生成的key        |
 
 
 
@@ -208,7 +219,7 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-[copyrightedMedia initialization];
+copyrightedMedia.init();
 ```
 
 
@@ -222,7 +233,7 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-[TXCopyrightedMedia destroy];
+copyrightedMedia.destroy();
 ```
 
 
@@ -236,33 +247,24 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-[copyrightedMedia preloadMusic:musicId playToken:playToken callback:self]
+copyrightedMedia.preloadMusic(String musicId, String playToken, ITXMusicPreloadCallback callback);
 ```
 
 **参数说明**
 
 | 参数名    | 类型                  | 描述      |
 | --------- | --------------------- | --------- |
-| musicId | NSString              | 歌曲Id |
-| playToken | NSString              | 播放Token |
-| callback  | ITXMusicPreloadCallback | 回调代理 |
+| musicId | String                | 歌曲Id |
+| playToken | String                | 播放Token |
+| callback  | ITXMusicPreloadCallback | 回调函数  |
 
 
 ```java
-@protocol ITXMusicPreloadCallback <NSObject>
-
-@optional
-
-- (void)onPreloadStart:(NSString *)musicId;
-
-- (void)onPreloadProgress:(NSString *)musicId
-                 progress:(float)progress;
-
-- (void)onPreloadComplete:(NSString *)musicId
-                errorCode:(int)errorCode
-                      msg:(NSString *)msg;
-
-@end
+interface ITXMusicPreloadCallback {
+    void onPreloadStart(String musicId);
+    void onPreloadProgress(String musicId, float progress);
+    void onPreloadComplete(String musicId, int errCode, String errMsg);
+}
 ```
 
 
@@ -276,14 +278,14 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-[copyrightedMedia cancelPreloadMusic:musicId];
+copyrightedMedia.cancelPreloadMusic(String musicId);
 ```
 
 **参数说明**
 
 | 参数名    | 类型   | 描述      |
 | --------- | ------ | --------- |
-| musicId | NSString | 歌曲Id |
+| musicId | String | 歌曲Id |
 
 
 
@@ -296,14 +298,14 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId];
+boolean isPreloaded = copyrightedMedia.isMusicPreloaded(String musicId);
 ```
 
 **参数说明**
 
-| 参数名  | 类型     | 描述   |
-| ------- | -------- | ------ |
-| musicId | NSString | 音乐Id |
+| 参数名  | 类型   | 描述   |
+| ------- | ------ | ------ |
+| musicId | String | 音乐Id |
 
 
 
@@ -316,21 +318,21 @@ BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId];
 **接口**
 
 ```java
-NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType];
+String MusicUri = TXCopyrightedMedia.genMusicURI(String musicId，int musicType);
 ```
 
 **参数说明**
 
 | 参数名    | 类型   | 描述                       |
 | --------- | ------ | -------------------------- |
-| musicId | NSString | 歌曲Id                  |
+| musicId | String | 歌曲Id                  |
 | musicType   | Int    | 0：原唱，1：伴奏,  2：歌词 |
 
 **返回说明**
 
 | 返回值 | 类型   | 描述                                                         |
 | ------ | ------ | ------------------------------------------------------------ |
-| musicUri | NSString | 原唱&amp;伴奏：传给TRTC 播放的uri，格式 CopyRightMusic://audiotype=xxxx&musicid=xxxx；歌词：返回歌词的本地路径 |
+| musicUri | String | 原唱&amp;伴奏：传给TRTC 播放的uri，格式 CopyRightMusic://audiotype=xxxx&musicid=xxxx；歌词：返回歌词的本地路径 |
 
 
 
@@ -343,7 +345,7 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType];
 **接口**
 
 ```java
-[copyrightedMedia clearMusicCache];
+copyrightedMedia.clearMusicCache();
 ```
 
 
@@ -357,7 +359,7 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType];
 **接口**
 
 ```java
-[copyrightedMedia setMusicCacheMaxCount:maxCount];
+copyrightedMedia.setMusicCacheMaxCount(int maxCount);
 ```
 
 **参数说明**
@@ -372,75 +374,78 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType];
 
 application 创建时候调用:
 ```java
-[[TXCopyrightedMedia instance] setLicense:licence key:key];
+TXCopyrightedMedia.instance().setLicense(context, licenseUrl, key);
 ```
 
 进入主界面时候调用：
 
 ```java
-[[TXCopyrightedMedia instance] initialization];
+TXCopyrightedMedia.instance().init();
 ```
 
 
 退出主界面时候调用：
 
 ```java
-[TXCopyrightedMedia destroy];
+TXCopyrightedMedia.instance().destroy();
 ```
 
 
 进入K歌房间，点击K歌，下载Music：
 
 ```java
-    TXCopyrightedMedia *copyRightedMedia = [TXCopyrightedMedia instance];
-    if([copyRightedMedia isMusicPreloaded:musicId]) {
-         [self startPlayMusic];
-    }else {
-        [copyRightedMedia preloadMusic:musicId playToken:playToken callback:self];
-    }
+TXCopyrightedMedia copyRightedMedia = TXCopyrightedMedia.instance();
+if(copyRightedMedia.isMusicPreloaded(musicId)){
+     startPlayMusic();
+}else{
+  ITXMusicPreloadCallback callback = new ITXMusicPreloadCallback() {
+      @override
+      public void onPreloadStart(String musicId) {
+        // 界面提示 Music 开始加载
+      }
+      @override
+      public void onPreloadProgress(String musicId, float progress){
+        // 界面显示进度
+      }
+      @override
+      void onPreloadComplete(String musicId, int errorCode, String errMsg){
+        // 缓存完毕
+        if(errorCode == ErrorCode.Success) {
+          startPlayMusic();
+        } else {
+          // 提示失败，详情见ErrorCode
+        } 
+      }
+  }
+  copyRightedMedia.preloadMusic(musicId, playToken, callback);
 }
 
-- (void)startPlayMusic
-{
-    NSString *origintUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:0];//获取原唱 uri
-    NSString *accompUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:1];//获取伴奏 uri
+void startPlayMusic(){
+    String origintUri = TXCopyrightedMedia.genMusicURI(musicId, 0);//获取原唱 uri
+    String accompUri = TXCopyrightedMedia.genMusicURI(musicId, 1);//获取伴奏 uri
     // 注意，上面的 musicId 是曲库后台接口返回的字符串，用来区分存储在后台的音乐资源
     //      下面的 originMusicId 和 accompMusicId 是 int 型格式，您可以自己设置，
     //      用于 TRTC 的 BGM 播放接口区分不同的音乐使用，保证原唱和伴奏的 id 不同即可
     int originMusicId = 0;//原唱的 music id
     int accompMusicId = 1;//伴唱的 music id
-    TXAudioMusicParam *originMusicParam = [[TXAudioMusicParam alloc] init];
-    originMusicParam.ID = originMusicId;
-    TXAudioMusicParam *accompMusicParam = [[TXAudioMusicParam alloc] init];
-    accompMusicParam.ID = accompMusicId;
-    
+    TXAudioEffectManager.AudioMusicParam originMusicParam = 
+      new TXAudioEffectManager.AudioMusicParam(originMusicId, origintUri);
+    TXAudioEffectManager.AudioMusicParam accompMusicParam = 
+      new TXAudioEffectManager.AudioMusicParam(accompMusicId, accompUri);
     // 播放原唱和伴奏
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] startPlayMusic:originMusicParam onStart:^(NSInteger errCode) {
-
-    } onProgress:^(NSInteger progressMS, NSInteger durationMS) {
-        
-    } onComplete:^(NSInteger errCode) {
-        
-    }];
-    
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] startPlayMusic:accompMusicParam onStart:^(NSInteger errCode) {
-
-    } onProgress:^(NSInteger progressMS, NSInteger durationMS) {
-        
-    } onComplete:^(NSInteger errCode) {
-        
-    }];
-    
+    TRTCCloud.sharedInstance(this).startPlayMusic(originMusicParam);
+    TRTCCloud.sharedInstance(this).startPlayMusic(accompMusicParam);
+  
     //调用以下代码会播放并上行伴奏：
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:originMusicId volume:0];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:accompMusicId volume:100];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:originMusicId volume:0];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:accompMusicId volume:100];
-    
+    TXAudioEffectManager.setMusicPlayoutVolume(originMusicId,0);
+    TXAudioEffectManager.setMusicPlayoutVolume(accompMusicId,100);
+    TXAudioEffectManager.setMusicPublishVolume(originMusicId,0);
+    TXAudioEffectManager.setMusicPublishVolume(accompMusicId,100);
+
     //调用以下代码会播放并上行原唱：
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:originMusicId volume:100];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:accompMusicId volume:0];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:originMusicId volume:100];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:accompMusicId volume:0];
+    TXAudioEffectManager.setMusicPlayoutVolume(originMusicId,100);
+    TXAudioEffectManager.setMusicPlayoutVolume(accompMusicId,0);
+    TXAudioEffectManager.setMusicPublishVolume(originMusicId,100);
+    TXAudioEffectManager.setMusicPublishVolume(accompMusicId,0);
 }
 ```
