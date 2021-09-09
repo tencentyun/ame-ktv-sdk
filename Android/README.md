@@ -267,7 +267,21 @@ interface ITXMusicPreloadCallback {
 }
 ```
 
+#### 错误码
 
+errCode返回码定义如下
+
+| 定义             | 数值 | 描述              |
+| ---------------- | ---- | ----------------- |
+| ERR_NONE         | 0    | 无错误            |
+| ERR_INIT_FAIL    | -1   | 初始化失败        |
+| ERR_CANCEL       | -2   | 用户取消数据获取  |
+| ERR_TOKEN_FAIL   | -3   | token过期         |
+| ERR_NET_FAIL     | -4   | 网络错误          |
+| ERR_INNER        | -5   | 内部错误          |
+| ERR_PARSE_FAIL   | -6   | 解析错误          |
+| ERR_DECRYPT_FAIL | -7   | 解密错误          |
+| ERR_LICENCE_FAIL | -8   | License校验不通过 |
 
 #### 取消预加载Music数据
 

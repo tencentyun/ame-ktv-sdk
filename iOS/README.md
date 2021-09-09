@@ -267,6 +267,24 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 
 
 
+#### 错误码
+
+errorCode返回码定义如下
+
+| 定义                          | 数值 | 描述              |
+| ----------------------------- | ---- | ----------------- |
+| TXCopyrightedErrorNoError     | 0    | 无错误            |
+| TXCopyrightedErrorInitFail    | -1   | 初始化失败        |
+| TXCopyrightedErrorCancel      | -2   | 用户取消数据获取  |
+| TXCopyrightedErrorTokenFail   | -3   | token过期         |
+| TXCopyrightedErrorNetFail     | -4   | 网络错误          |
+| TXCopyrightedErrorInner       | -5   | 内部错误          |
+| TXCopyrightedErrorParseFail   | -6   | 解析错误          |
+| TXCopyrightedErrorDecryptFail | -7   | 解密错误          |
+| TXCopyrightedErrorLicenseFail | -8   | License校验不通过 |
+
+
+
 #### 取消预加载Music数据
 
 **说明**
