@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TXCopyrightedMedia'
-  s.version          = '1.0.3'
+  s.version          = '1.0.4'
   s.summary          = 'ame sdk for iOS'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/tencentyun/ame-ktv-sdk.git'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'zhiruiou' => 'zhiruiou@tencent.com' }
-  s.source           = { :git => 'https://github.com/tencentyun/ame-ktv-sdk.git' }
+  s.source           = { :git => 'https://github.com/tencentyun/ame-ktv-sdk.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
   

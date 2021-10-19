@@ -43,24 +43,31 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
 /// 预加载音乐数据。
 /// @param musicId 歌曲Id
 /// @param playToken 播放Token
+/// @param bitrateDefinition 码率，传nil为改音频默认码率
 /// @param callback 回调结束后响应对象
 - (void)preloadMusic:(NSString *)musicId
+   bitrateDefinition:(NSString *)bitrateDefinition
            playToken:(NSString *)playToken
             callback:(id<ITXMusicPreloadCallback>)callback;
 
 /// 取消预加载音乐数据。
 /// @param musicId 歌曲Id
-- (void)cancelPreloadMusic:(NSString *)musicId;
+/// @param bitrateDefinition 码率，传nil为改音频默认码率
+- (void)cancelPreloadMusic:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
+
 
 /// 检测是否已预加载音乐数据。
 /// @param musicId 歌曲Id
-- (BOOL)isMusicPreloaded:(NSString *)musicId;
+/// @param bitrateDefinition 码率，传nil为改音频默认码率
+- (BOOL)isMusicPreloaded:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
 
 /// 生成音乐 URI，App客户端，播放时候调用，传给trtc进行播放。与preloadMusic一一对应
 /// @param musicId 歌曲Id
 /// @param bgmType 0：原唱，1：伴奏  2:  歌词
+/// @param bitrateDefinition 码率，传nil为改音频默认码率
 - (NSString *)genMusicURI:(NSString *)musicId
-                  bgmType:(int)bgmType;
+                  bgmType:(int)bgmType
+        bitrateDefinition:(NSString *)bitrateDefinition;
 
 /// 清理音乐缓存
 - (void)clearMusicCache;

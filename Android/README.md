@@ -155,7 +155,7 @@ X-TC-Action: DescribeKTVMusicDetail
 ## 3.6 SDK接入
 ## 3.6.1 集成SDK
 ##### Android
-a、拷贝TXCopyrightedMedia-release-1.0.1.aar 到 libs目录，添加依赖项：implementation(name:'TXCopyrightedMedia-release-1.0.1', ext:'aar')
+a、拷贝TXCopyRightedMedia-Android-1.0.4.aar 到 libs目录，添加依赖项：implementation(name:'TXCopyRightedMedia-Android-1.0.4', ext:'aar')
 b、[参考此处集成TRTC SDK](https://cloud.tencent.com/document/product/647/32175)
 implementation 'com.tencent.liteav:LiteAVSDK_TRTC:latest.release'
 
@@ -168,7 +168,7 @@ a、集成版权曲库SDK(拷贝TXCopyrightedMedia.framework)到项目工程中�
 
 b、如果使用pod导入，则在podfile里面添加:
 ```
-pod 'TXCopyrightedMedia', :podspec => 'https://mediacloud-76607.gzc.vod.tencent-cloud.com/Podspec/TXCopyrightedMedia/1.0.1/TXCopyrightedMedia.podspec'
+pod 'TXCopyrightedMedia', :podspec => 'https://mediacloud-76607.gzc.vod.tencent-cloud.com/Podspec/TXCopyrightedMedia/1.0.4/TXCopyrightedMedia.podspec'
 ```
 c、[参考此处集成TRTC SDK](https://cloud.tencent.com/document/product/647/32173)
 
@@ -247,7 +247,7 @@ copyrightedMedia.destroy();
 **接口**
 
 ```java
-copyrightedMedia.preloadMusic(String musicId, String playToken, ITXMusicPreloadCallback callback);
+copyrightedMedia.preloadMusic(String musicId, String bitrateDefinition, String playToken, ITXMusicPreloadCallback callback);
 ```
 
 **参数说明**
@@ -255,15 +255,16 @@ copyrightedMedia.preloadMusic(String musicId, String playToken, ITXMusicPreloadC
 | 参数名    | 类型                  | 描述      |
 | --------- | --------------------- | --------- |
 | musicId | String                | 歌曲Id |
+| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 | playToken | String                | 播放Token |
 | callback  | ITXMusicPreloadCallback | 回调函数  |
 
 
 ```java
 interface ITXMusicPreloadCallback {
-    void onPreloadStart(String musicId);
-    void onPreloadProgress(String musicId, float progress);
-    void onPreloadComplete(String musicId, int errCode, String errMsg);
+    void onPreloadStart(String musicId, String bitrateDefinition);
+    void onPreloadProgress(String musicId, String bitrateDefinition, float progress);
+    void onPreloadComplete(String musicId, String bitrateDefinition, int errCode, String errMsg);
 }
 ```
 
@@ -292,7 +293,7 @@ errCode返回码定义如下
 **接口**
 
 ```java
-copyrightedMedia.cancelPreloadMusic(String musicId);
+copyrightedMedia.cancelPreloadMusic(String musicId, String bitrateDefinition);
 ```
 
 **参数说明**
@@ -300,6 +301,7 @@ copyrightedMedia.cancelPreloadMusic(String musicId);
 | 参数名    | 类型   | 描述      |
 | --------- | ------ | --------- |
 | musicId | String | 歌曲Id |
+| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 
 
 
@@ -312,14 +314,15 @@ copyrightedMedia.cancelPreloadMusic(String musicId);
 **接口**
 
 ```java
-boolean isPreloaded = copyrightedMedia.isMusicPreloaded(String musicId);
+boolean isPreloaded = copyrightedMedia.isMusicPreloaded(String musicId, String bitrateDefinition);
 ```
 
 **参数说明**
 
-| 参数名  | 类型   | 描述   |
-| ------- | ------ | ------ |
-| musicId | String | 音乐Id |
+| 参数名            | 类型   | 描述                                                  |
+| ----------------- | ------ | ----------------------------------------------------- |
+| musicId           | String | 音乐Id                                                |
+| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 
 
 
@@ -332,7 +335,7 @@ boolean isPreloaded = copyrightedMedia.isMusicPreloaded(String musicId);
 **接口**
 
 ```java
-String MusicUri = TXCopyrightedMedia.genMusicURI(String musicId，int musicType);
+String MusicUri = TXCopyrightedMedia.genMusicURI(String musicId，int musicType, String bitrateDefinition);
 ```
 
 **参数说明**
@@ -341,12 +344,13 @@ String MusicUri = TXCopyrightedMedia.genMusicURI(String musicId，int musicType)
 | --------- | ------ | -------------------------- |
 | musicId | String | 歌曲Id                  |
 | musicType   | Int    | 0：原唱，1：伴奏,  2：歌词 |
+| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 
 **返回说明**
 
 | 返回值 | 类型   | 描述                                                         |
 | ------ | ------ | ------------------------------------------------------------ |
-| musicUri | String | 原唱&amp;伴奏：传给TRTC 播放的uri，格式 CopyRightMusic://audiotype=xxxx&musicid=xxxx；歌词：返回歌词的本地路径 |
+| musicUri | String | 原唱&amp;伴奏：传给TRTC 播放的uri，格式 CopyRightMusic://audiotype=xxxx&musicid=xxxx&bitrate=xxxx；歌词：返回歌词的本地路径 |
 
 
 
@@ -409,20 +413,20 @@ TXCopyrightedMedia.instance().destroy();
 
 ```java
 TXCopyrightedMedia copyRightedMedia = TXCopyrightedMedia.instance();
-if(copyRightedMedia.isMusicPreloaded(musicId)){
+if(copyRightedMedia.isMusicPreloaded(musicId, bitrateDefinition)){
      startPlayMusic();
 }else{
   ITXMusicPreloadCallback callback = new ITXMusicPreloadCallback() {
       @override
-      public void onPreloadStart(String musicId) {
+      public void onPreloadStart(String musicId, String bitrateDefinition) {
         // 界面提示 Music 开始加载
       }
       @override
-      public void onPreloadProgress(String musicId, float progress){
+      public void onPreloadProgress(String musicId, String bitrateDefinition, float progress){
         // 界面显示进度
       }
       @override
-      void onPreloadComplete(String musicId, int errorCode, String errMsg){
+      void onPreloadComplete(String musicId, String bitrateDefinition, int errorCode, String errMsg){
         // 缓存完毕
         if(errorCode == ErrorCode.Success) {
           startPlayMusic();
@@ -435,8 +439,8 @@ if(copyRightedMedia.isMusicPreloaded(musicId)){
 }
 
 void startPlayMusic(){
-    String origintUri = TXCopyrightedMedia.genMusicURI(musicId, 0);//获取原唱 uri
-    String accompUri = TXCopyrightedMedia.genMusicURI(musicId, 1);//获取伴奏 uri
+    String origintUri = TXCopyrightedMedia.genMusicURI(musicId, 0, "audio/lo");//获取原唱 uri
+    String accompUri = TXCopyrightedMedia.genMusicURI(musicId, 1, "audio/lo");//获取伴奏 uri
     // 注意，上面的 musicId 是曲库后台接口返回的字符串，用来区分存储在后台的音乐资源
     //      下面的 originMusicId 和 accompMusicId 是 int 型格式，您可以自己设置，
     //      用于 TRTC 的 BGM 播放接口区分不同的音乐使用，保证原唱和伴奏的 id 不同即可

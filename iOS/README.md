@@ -236,7 +236,7 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-[copyrightedMedia preloadMusic:musicId playToken:playToken callback:self]
+[copyrightedMedia preloadMusic:musicId bitrateDefinition:bitrateDefinition playToken:playToken callback:self]
 ```
 
 **参数说明**
@@ -244,6 +244,7 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 | 参数名    | 类型                  | 描述      |
 | --------- | --------------------- | --------- |
 | musicId | NSString              | 歌曲Id |
+| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 | playToken | NSString              | 播放Token |
 | callback  | ITXMusicPreloadCallback | 回调代理 |
 
@@ -253,12 +254,14 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 
 @optional
 
-- (void)onPreloadStart:(NSString *)musicId;
+- (void)onPreloadStart:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
 
 - (void)onPreloadProgress:(NSString *)musicId
+  			bitrateDefinition:(NSString *)bitrateDefinition
                  progress:(float)progress;
 
 - (void)onPreloadComplete:(NSString *)musicId
+  			bitrateDefinition:(NSString *)bitrateDefinition
                 errorCode:(int)errorCode
                       msg:(NSString *)msg;
 
@@ -294,7 +297,7 @@ errorCode返回码定义如下
 **接口**
 
 ```java
-[copyrightedMedia cancelPreloadMusic:musicId];
+[copyrightedMedia cancelPreloadMusic:musicId bitrateDefinition:bitrateDefinition];
 ```
 
 **参数说明**
@@ -302,6 +305,7 @@ errorCode返回码定义如下
 | 参数名    | 类型   | 描述      |
 | --------- | ------ | --------- |
 | musicId | NSString | 歌曲Id |
+| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 
 
 
@@ -314,14 +318,15 @@ errorCode返回码定义如下
 **接口**
 
 ```java
-BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId];
+BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId bitrateDefinition:bitrateDefinition];
 ```
 
 **参数说明**
 
-| 参数名  | 类型     | 描述   |
-| ------- | -------- | ------ |
-| musicId | NSString | 音乐Id |
+| 参数名            | 类型     | 描述                                                  |
+| ----------------- | -------- | ----------------------------------------------------- |
+| musicId           | NSString | 音乐Id                                                |
+| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 
 
 
@@ -334,7 +339,7 @@ BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId];
 **接口**
 
 ```java
-NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType];
+NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType bitrateDefinition:bitrateDefinition];
 ```
 
 **参数说明**
@@ -343,12 +348,13 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType];
 | --------- | ------ | -------------------------- |
 | musicId | NSString | 歌曲Id                  |
 | musicType   | Int    | 0：原唱，1：伴奏,  2：歌词 |
+| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
 
 **返回说明**
 
 | 返回值 | 类型   | 描述                                                         |
 | ------ | ------ | ------------------------------------------------------------ |
-| musicUri | NSString | 原唱&amp;伴奏：传给TRTC 播放的uri，格式 CopyRightMusic://audiotype=xxxx&musicid=xxxx；歌词：返回歌词的本地路径 |
+| musicUri | NSString | 原唱&amp;伴奏：传给TRTC 播放的uri，格式 CopyRightMusic://audiotype=xxxx&musicid=xxxx&bitrate=xxxx；歌词：返回歌词的本地路径 |
 
 
 
@@ -411,17 +417,17 @@ application 创建时候调用:
 
 ```java
     TXCopyrightedMedia *copyRightedMedia = [TXCopyrightedMedia instance];
-    if([copyRightedMedia isMusicPreloaded:musicId]) {
+    if([copyRightedMedia isMusicPreloaded:musicId bitrateDefinition:@"audio/lo"]) {
          [self startPlayMusic];
     }else {
-        [copyRightedMedia preloadMusic:musicId playToken:playToken callback:self];
+        [copyRightedMedia preloadMusic:musicId bitrateDefinition:@"audio/lo" playToken:playToken callback:self];
     }
 }
 
 - (void)startPlayMusic
 {
-    NSString *origintUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:0];//获取原唱 uri
-    NSString *accompUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:1];//获取伴奏 uri
+    NSString *origintUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:0 bitrateDefinition:@"audio/lo"];//获取原唱 uri
+    NSString *accompUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:1 bitrateDefinition:@"audio/lo"];//获取伴奏 uri
     // 注意，上面的 musicId 是曲库后台接口返回的字符串，用来区分存储在后台的音乐资源
     //      下面的 originMusicId 和 accompMusicId 是 int 型格式，您可以自己设置，
     //      用于 TRTC 的 BGM 播放接口区分不同的音乐使用，保证原唱和伴奏的 id 不同即可

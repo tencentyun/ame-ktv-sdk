@@ -6,15 +6,15 @@
 	<dict>
 		<key>Headers/ITXMusicPreloadCallback.h</key>
 		<data>
-		ahzoE3+23zCmo748K2orPxKYK8k=
+		I1Lx9YrO5I7iVQGTQ8SiE7USFU4=
 		</data>
 		<key>Headers/TXCopyrightedMedia.h</key>
 		<data>
-		YFDiW/W/f9dRrkuGzxdX9Tgm6OE=
+		v3Hc4+kO/LBfaYQluzwN5qv9DMI=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		pjwgMfeUo8jxOJez+ZfhJK1TLnc=
+		OptZfCmqb7JL3YeJDV0rtea6YEk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -27,22 +27,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ahzoE3+23zCmo748K2orPxKYK8k=
+			I1Lx9YrO5I7iVQGTQ8SiE7USFU4=
 			</data>
 			<key>hash2</key>
 			<data>
-			JvjnAwj9Cs3RmC2pN4KFIPzrxsZCDyLCIErB8+2ki64=
+			XtVm8qzkMmlpS/JJQV8cX3+TDlyuJYO3t/d54o5LIvQ=
 			</data>
 		</dict>
 		<key>Headers/TXCopyrightedMedia.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			YFDiW/W/f9dRrkuGzxdX9Tgm6OE=
+			v3Hc4+kO/LBfaYQluzwN5qv9DMI=
 			</data>
 			<key>hash2</key>
 			<data>
-			2389/XYJUrFiqGVAO7EESoIpyn77JSdVYSP97CJmLjU=
+			srirvN4EOZVFxDAf+Hlx/6AFjrQQfLSGdLKLSI318FE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
