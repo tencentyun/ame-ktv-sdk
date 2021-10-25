@@ -24,6 +24,13 @@
 | Android  | [下载](https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/1.0.3/TXCopyRightedMedia-Android-1.0.3.zip) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [API](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) |
 | Win(C++) | [下载](https://liteav.sdk.qcloud.com/download/latest/TXLiteAVSDK_TRTC_Win_latest.zip) | [DOC](https://cloud.tencent.com/document/product/647/32397)  | [DOC](https://cloud.tencent.com/document/product/647/32178)  | [API](https://cloud.tencent.com/document/product/647/32268)  |
 
+## Version 1.0.4 @ 2021.10.22
+
+**新功能**
+
+- Android：升级所有接口，支持多码率选择。
+- iOS：升级所有接口，支持多码率选择。
+
 ## Version 1.0.3 @ 2021.08.03
 
 **问题修复**
