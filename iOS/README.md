@@ -435,8 +435,10 @@ application 创建时候调用:
     int accompMusicId = 1;//伴唱的 music id
     TXAudioMusicParam *originMusicParam = [[TXAudioMusicParam alloc] init];
     originMusicParam.ID = originMusicId;
+    originMusicParam.path = origintUri;
     TXAudioMusicParam *accompMusicParam = [[TXAudioMusicParam alloc] init];
     accompMusicParam.ID = accompMusicId;
+    accompMusicParam.path = accompUri;
     
     // 播放原唱和伴奏
     [[[TRTCCloud sharedInstance] getAudioEffectManager] startPlayMusic:originMusicParam onStart:^(NSInteger errCode) {
