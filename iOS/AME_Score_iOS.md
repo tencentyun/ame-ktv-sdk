@@ -1,4 +1,4 @@
-## 实时音视频TRTC & 正版版权曲库直通车AME在线KTV解决方案
+## E实时音视频TRTC & 正版版权曲库直通车AME在线KTV解决方案
 ## 一、产品概述
 实时音视频TRTC & 版权曲库AME在线KTV联合解决方案深度整合腾讯在音视频深度积累的技术能力以及音乐内容版权上的核心优势产生1+1大于2的化学反应，帮助开发者极速搭建在线KTV业务。
 
@@ -160,24 +160,6 @@ b、如果使用pod导入，则在podfile里面添加:
 ```
 pod 'TXCopyrightedMedia'
 ```
-如果搜索不到，原因是没有更新到源。建议使用 https://cdn.cocoapods.org/  做源。在`Podfile`最上面添加即可
-
-```bash
-source 'https://cdn.cocoapods.org/'
-```
-
-更新源
-
-```
-pod repo update trunk
-```
-
-清理Caches
-
-```
-rm -rf ~/Library/Caches/Cocoapods
-```
-
 c、[参考此处集成TRTC SDK](https://cloud.tencent.com/document/product/647/32173)
 
 ## 3.6.2 使用SDK
@@ -408,6 +390,88 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType bit
 | -------- | ---- | ------------------------ |
 | maxCount | Int  | 歌曲最大缓存数量，默认50 |
 
+#### 创建音乐轨道类
+
+**说明**
+
+创建音乐轨道类，用于获取音乐的数据帧数据，App客户端在preloadMusic成功之后调用
+
+**接口**
+
+```java
+id<ITXCMMusicTrack> musicTrack = [[TXCopyrightedMedia instance] createMusicTrack:(TXCMusicInfo *)info];
+```
+
+**参数说明**
+
+| 参数名    | 类型         | 描述     |
+| --------- | ------------ | -------- |
+| musicInfo | TXCMusicInfo | 歌曲信息 |
+
+
+
+```objective-c
+@interface TXCMusicInfo : NSObject
+
+@property (nonatomic, copy) NSString *musicId;
+@property (nonatomic, assign) int musicType;
+@property (nonatomic, copy) NSString *bitrateDefinition;
+
+@end
+
+@protocol TXCMMusicTrackDelegate <NSObject>
+
+@optional
+
+- (void)onPrepared:(id<ITXCMMusicTrack>)musicTrack;
+
+- (void)onError:(id<ITXCMMusicTrack>)musicTrack errCode:(int)errCode msg:(NSString *)msg;
+
+@end
+
+@protocol ITXCMMusicTrack <NSObject>
+
+/// onPrepared后调用，返回采样率，16000、24000、32000、44100、48000等
+- (int)getSampleRate;
+
+/// onPrepared后调用，返回声道数
+- (int)getChannelCount;
+
+/// onPrepared后调用，返回音轨时长。单位:millisecond
+- (int)getDuration;
+
+/// 设置代理回调
+/// @param delegate 代理
+- (void)setDelegate:(id<TXCMMusicTrackDelegate>)delegate;
+
+/// 准备音频数据，对musicId进行解密&拼接成m4a，然后准备把音乐参数解出来，异步回调onPrepared
+- (void)prepare;
+
+/// onPrepared后调用，开始音频解码
+- (void)start;
+
+/// 跳转音乐的解码进度，注意：请尽量避免过度频繁地调用该接口，因为该接口可能会再次读写音乐文件，耗时稍高。
+/// @param pts seek时间，单位：ms,  接口会修正传入的pts的值，得到附近精确的pts
+- (void)seek:(int *)pts;
+
+/// 读帧， 如果为nil，则为读到末尾
+- (TXCMAudioFrameInfo *)readAudioFrame;
+
+/// 返回最小buffer大小
+- (int)getMinBufferSize;
+
+/// 停止音频轨道
+- (void)stop;
+
+/// 释放资源
+- (void)destory;
+
+/// 获取代理
+- (id)getProxy:(id)engine;
+
+
+```
+
 
 
 ## 3.6.3 代码示例
@@ -431,60 +495,82 @@ application 创建时候调用:
 ```
 
 
-进入K歌房间，点击K歌，下载Music：
+进入K歌房间，点击K歌，下载Music：以声网的APIExample为例
 
 ```java
-    TXCopyrightedMedia *copyRightedMedia = [TXCopyrightedMedia instance];
-    if([copyRightedMedia isMusicPreloaded:musicId bitrateDefinition:@"audio/lo"]) {
-         [self startPlayMusic];
-    }else {
-        [copyRightedMedia preloadMusic:musicId bitrateDefinition:@"audio/lo" playToken:playToken callback:self];
+    let sampleRate:UInt = 32000, channel:UInt = 2, bitPerSample = 16, samples = 320 * 10
+    var musicTrack: ITXCMMusicTrack?
+    var proxy: IAgoraRtcEngine?
+    private lazy var timer: DispatchSourceTimer? = {
+        let timer = DispatchSource.makeTimerSource()
+          let interval = 1024.0/32000
+          timer.schedule(deadline: .now(), repeating: interval)
+          timer.setEventHandler {
+          DispatchQueue.main.async {
+            if let frame = self.musicTrack?.readAudioFrame() {
+              if let ret = self.proxy?.pushExternalAudioFrameRawData(frame, sourcePos: 0, samplesPerChannel: 1024, bytesPerSample: 2, channels: Int(self.channel), samplesPerSec: Int(self.sampleRate), renderTimeMs: 0, avSyncType: 0) {//本地播放
+                NSLog("\(ret)")
+              }
+              if let ret = self.proxy?.pushExternalAudioFrameRawData(frame, sourcePos: 1, samplesPerChannel: 1024, bytesPerSample: 2, channels: Int(self.channel), samplesPerSec: Int(self.sampleRate), renderTimeMs: 0, avSyncType: 0) {//推到远端
+                NSLog("\(ret)")
+              }
+            }
+          }
+        }
+        return timer
+    }()
+
+    override func viewDidLoad(){
+      super.viewDidLoad()
+      loadCopyright()
     }
 }
 
-- (void)startPlayMusic
-{
-    NSString *origintUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:0 bitrateDefinition:@"audio/lo"];//获取原唱 uri
-    NSString *accompUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:1 bitrateDefinition:@"audio/lo"];//获取伴奏 uri
-    // 注意，上面的 musicId 是曲库后台接口返回的字符串，用来区分存储在后台的音乐资源
-    //      下面的 originMusicId 和 accompMusicId 是 int 型格式，您可以自己设置，
-    //      用于 TRTC 的 BGM 播放接口区分不同的音乐使用，保证原唱和伴奏的 id 不同即可
-    int originMusicId = 0;//原唱的 music id
-    int accompMusicId = 1;//伴唱的 music id
-    TXAudioMusicParam *originMusicParam = [[TXAudioMusicParam alloc] init];
-    originMusicParam.ID = originMusicId;
-    originMusicParam.path = origintUri;
-    TXAudioMusicParam *accompMusicParam = [[TXAudioMusicParam alloc] init];
-    accompMusicParam.ID = accompMusicId;
-    accompMusicParam.path = accompUri;
-    
-    // 播放原唱和伴奏
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] startPlayMusic:originMusicParam onStart:^(NSInteger errCode) {
-
-    } onProgress:^(NSInteger progressMS, NSInteger durationMS) {
-        
-    } onComplete:^(NSInteger errCode) {
-        
-    }];
-    
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] startPlayMusic:accompMusicParam onStart:^(NSInteger errCode) {
-
-    } onProgress:^(NSInteger progressMS, NSInteger durationMS) {
-        
-    } onComplete:^(NSInteger errCode) {
-        
-    }];
-    
-    //调用以下代码会播放并上行伴奏：
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:originMusicId volume:0];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:accompMusicId volume:100];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:originMusicId volume:0];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:accompMusicId volume:100];
-    
-    //调用以下代码会播放并上行原唱：
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:originMusicId volume:100];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPlayoutVolume:accompMusicId volume:0];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:originMusicId volume:100];
-    [[[TRTCCloud sharedInstance] getAudioEffectManager] setMusicPublishVolume:accompMusicId volume:0];
+extension CustomPcmAudioSourceMain {
+    func loadCopyright() {
+        let licence = "xxxxxxxx"
+        let key = "xxxxxx"
+        TXCopyrightedMedia.instance().setLicense(licence, key: key)
+        TXCopyrightedMedia.instance().initialization()
+        TXCopyrightedMedia.instance().preloadMusic(musicId, bitrateDefinition: "", playToken: token, callback: self)
+    }
 }
+
+extension CustomPcmAudioSourceMain: ITXMusicPreloadCallback {
+    func onPreloadStart(_ musicId: String!, bistrateDefinition: String!) {
+        
+    }
+    
+    func onPreloadProgress(_ musicId: String!, bitrateDefinition: String!, progress: Float) {
+        
+    }
+    
+    func onPreloadComplete(_ musicId: String!, bitrateDefinition: String!, errorCode: Int32, msg: String!) {
+        if errorCode == 0 {
+            if let obj = self.musicTrack?.getProxy(agoraKit!) as? IAgoraRtcEngine {
+                self.proxy = obj;
+            }
+            let info = TXCMusicInfo()
+            info.musicId = musicId
+            info.musicType = 0//原唱
+            info.bitrateDefinition = bitrateDefinition
+            self.musicTrack = TXCopyrightedMedia.instance().createMusicTrack(info)
+            self.musicTrack?.setDelegate(self)
+            self.musicTrack?.prepare()
+        }
+    }
+}
+
+extension CustomPcmAudioSourceMain: TXCMMusicTrackDelegate {
+    func onPrepared(_ audioTrack: ITXCMMusicTrack) {
+      	self.musicTrack?.start()
+        self.timer?.resume()
+    }
+    
+    func onError(_ audioTrack: ITXCMMusicTrack, errCode: Int32, msg: String) {
+        
+    }
+}
+
+
 ```
