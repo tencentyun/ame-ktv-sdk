@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ITXMusicPreloadCallback.h"
+#import "ITXMusicDownloadLicenseCallback.h"
 
 typedef NS_ENUM(NSInteger, TXCopyrightedError) {
     TXCopyrightedErrorNoError = 0,
@@ -36,6 +37,15 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
 /// @param key 控制台生成的key
 - (void)setLicense:(NSString *)licenceUrl
                key:(NSString *)key;
+
+
+/// 设置License
+/// @param licenceUrl 控制台生成的licenceUr
+/// @param key 控制台生成的key
+/// @param callback 监听回调，注意，多次setLicense只有最后一次会收到回调
+- (void)setLicense:(NSString *)licenceUrl
+               key:(NSString *)key
+          callback:(id<ITXMusicDownloadLicenseCallback>)callback;
 
 /// 开启
 - (void)initialization;
@@ -75,6 +85,8 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
 /// 设置最大歌曲缓存数目，默认100
 /// @param maxCount 歌曲最大数目
 - (void)setMusicCacheMaxCount:(int)maxCount;
+
+
 
 @end
 

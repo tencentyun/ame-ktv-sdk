@@ -4,17 +4,21 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Headers/ITXMusicDownloadLicenseCallback.h</key>
+		<data>
+		SvcQ7XDIRxuMQ8MCvzNuO3Ef/3A=
+		</data>
 		<key>Headers/ITXMusicPreloadCallback.h</key>
 		<data>
 		I1Lx9YrO5I7iVQGTQ8SiE7USFU4=
 		</data>
 		<key>Headers/TXCopyrightedMedia.h</key>
 		<data>
-		v3Hc4+kO/LBfaYQluzwN5qv9DMI=
+		4f/fsz8Ys43zAkHN0ERv6J61SJ8=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		rAWA2j3xmGwaGxLWVx2qlCqw2vo=
+		d90CosC4zKdsEQWmzpdganr+mHs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -23,6 +27,17 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Headers/ITXMusicDownloadLicenseCallback.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SvcQ7XDIRxuMQ8MCvzNuO3Ef/3A=
+			</data>
+			<key>hash2</key>
+			<data>
+			K+KbXCSZIxViU2KDS6L0sWrva0J6jXQseMnoGd1Bof4=
+			</data>
+		</dict>
 		<key>Headers/ITXMusicPreloadCallback.h</key>
 		<dict>
 			<key>hash</key>
@@ -38,11 +53,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			v3Hc4+kO/LBfaYQluzwN5qv9DMI=
+			4f/fsz8Ys43zAkHN0ERv6J61SJ8=
 			</data>
 			<key>hash2</key>
 			<data>
-			srirvN4EOZVFxDAf+Hlx/6AFjrQQfLSGdLKLSI318FE=
+			e25emhSKDOTVJC9WenuMBjACpCqLRlwBlpBoEUqdNWA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
