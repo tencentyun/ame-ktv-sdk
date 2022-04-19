@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
                key:(NSString *)key
           callback:(id<ITXMusicDownloadLicenseCallback>)callback;
 
-/// 开启
+/// 开启服务，该函数为同步，必须在主线程调用
 - (void)initialization;
 
 /// 预加载音乐数据。

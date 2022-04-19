@@ -20,9 +20,21 @@
 
 | 所属平台 | Zip下载                                                      | Demo运行说明                                                 | SDK集成指引                                                  | API 列表                                                     |
 | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| iOS      | [下载](https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/2.1.0/TXCopyrightedMedia-iOS-2.1.0.220303.zip) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) | [API](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) |
-| Android  | [下载](https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/2.1.0/TXCopyrightedMedia-Android-trtc-2.1.0.220303.zip) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [API](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) |
+| iOS      | [下载](https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/2.1.2/TXCopyrightedMedia-iOS-2.1.2.220406.zip) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) | [API](https://github.com/tencentyun/ame-ktv-sdk/blob/master/iOS/README.md) |
+| Android  | [下载](https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/2.1.2/TXCopyrightedMedia-Android-trtc-2.1.2.220330.zip) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [DOC](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) | [API](https://github.com/tencentyun/ame-ktv-sdk/blob/master/Android/README.md) |
 | Win(C++) | 暂无                                                         | [DOC](https://cloud.tencent.com/document/product/647/32397)  | [DOC](https://cloud.tencent.com/document/product/647/32178)  | [API](https://cloud.tencent.com/document/product/647/32268)  |
+
+## Version 2.1.2 @ 2022.04.19
+
+**新功能**
+
+- Android：
+
+  1、优化和解决已知问题
+
+  iOS：
+
+  1、优化和解决已知问题
 
 ## Version 2.1.0 @ 2022.03.03
 
