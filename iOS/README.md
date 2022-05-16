@@ -262,7 +262,7 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 | 参数名    | 类型                  | 描述      |
 | --------- | --------------------- | --------- |
 | musicId | NSString              | 歌曲Id |
-| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| bitrateDefinition | NSString | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 | playToken | NSString              | 播放Token |
 | callback  | ITXMusicPreloadCallback | 回调代理 |
 
@@ -323,7 +323,7 @@ errorCode返回码定义如下
 | 参数名    | 类型   | 描述      |
 | --------- | ------ | --------- |
 | musicId | NSString | 歌曲Id |
-| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| bitrateDefinition | NSString | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 
 
 
@@ -341,10 +341,10 @@ BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId bitrateDefinition:
 
 **参数说明**
 
-| 参数名            | 类型     | 描述                                                  |
-| ----------------- | -------- | ----------------------------------------------------- |
-| musicId           | NSString | 音乐Id                                                |
-| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| 参数名            | 类型     | 描述                                                         |
+| ----------------- | -------- | ------------------------------------------------------------ |
+| musicId           | NSString | 音乐Id                                                       |
+| bitrateDefinition | NSString | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 
 
 
@@ -366,7 +366,7 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType bit
 | --------- | ------ | -------------------------- |
 | musicId | NSString | 歌曲Id                  |
 | musicType   | Int    | 0：原唱，1：伴奏,  2：歌词 |
-| bitrateDefinition | NSString | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| bitrateDefinition | NSString | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 
 **返回说明**
 

@@ -255,7 +255,7 @@ copyrightedMedia.preloadMusic(String musicId, String bitrateDefinition, String p
 | 参数名    | 类型                  | 描述      |
 | --------- | --------------------- | --------- |
 | musicId | String                | 歌曲Id |
-| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| bitrateDefinition | String | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 | playToken | String                | 播放Token |
 | callback  | ITXMusicPreloadCallback | 回调函数  |
 
@@ -301,7 +301,7 @@ copyrightedMedia.cancelPreloadMusic(String musicId, String bitrateDefinition);
 | 参数名    | 类型   | 描述      |
 | --------- | ------ | --------- |
 | musicId | String | 歌曲Id |
-| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| bitrateDefinition | String | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 
 
 
@@ -319,10 +319,10 @@ boolean isPreloaded = copyrightedMedia.isMusicPreloaded(String musicId, String b
 
 **参数说明**
 
-| 参数名            | 类型   | 描述                                                  |
-| ----------------- | ------ | ----------------------------------------------------- |
-| musicId           | String | 音乐Id                                                |
-| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| 参数名            | 类型   | 描述                                                         |
+| ----------------- | ------ | ------------------------------------------------------------ |
+| musicId           | String | 音乐Id                                                       |
+| bitrateDefinition | String | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 
 
 
@@ -344,7 +344,7 @@ String MusicUri = TXCopyrightedMedia.genMusicURI(String musicId，int musicType,
 | --------- | ------ | -------------------------- |
 | musicId | String | 歌曲Id                  |
 | musicType   | Int    | 0：原唱，1：伴奏,  2：歌词 |
-| bitrateDefinition | String | 码率描述（ audio/mi: 64 audio/lo: 128 audio/hi: 320） |
+| bitrateDefinition | String | 码率描述，从服务器歌曲详情获取（ audio/mi: 代表64kbps码率 audio/lo:代表128kbps码率 audio/hi: 代码320kbps码率） |
 
 **返回说明**
 
@@ -450,20 +450,23 @@ void startPlayMusic(){
       new TXAudioEffectManager.AudioMusicParam(originMusicId, origintUri);
     TXAudioEffectManager.AudioMusicParam accompMusicParam = 
       new TXAudioEffectManager.AudioMusicParam(accompMusicId, accompUri);
+  
+    TXAudioEffectManager audioEffectManager = 
+      TRTCCloud.sharedInstance(this).getAudioEffectManager();
     // 播放原唱和伴奏
-    TRTCCloud.sharedInstance(this).startPlayMusic(originMusicParam);
-    TRTCCloud.sharedInstance(this).startPlayMusic(accompMusicParam);
+    audioEffectManager.startPlayMusic(originMusicParam);
+    audioEffectManager.startPlayMusic(accompMusicParam);
   
     //调用以下代码会播放并上行伴奏：
-    TXAudioEffectManager.setMusicPlayoutVolume(originMusicId,0);
-    TXAudioEffectManager.setMusicPlayoutVolume(accompMusicId,100);
-    TXAudioEffectManager.setMusicPublishVolume(originMusicId,0);
-    TXAudioEffectManager.setMusicPublishVolume(accompMusicId,100);
+    audioEffectManager.setMusicPlayoutVolume(originMusicId,0);
+    audioEffectManager.setMusicPlayoutVolume(accompMusicId,100);
+    audioEffectManager.setMusicPublishVolume(originMusicId,0);
+    audioEffectManager.setMusicPublishVolume(accompMusicId,100);
 
     //调用以下代码会播放并上行原唱：
-    TXAudioEffectManager.setMusicPlayoutVolume(originMusicId,100);
-    TXAudioEffectManager.setMusicPlayoutVolume(accompMusicId,0);
-    TXAudioEffectManager.setMusicPublishVolume(originMusicId,100);
-    TXAudioEffectManager.setMusicPublishVolume(accompMusicId,0);
+    audioEffectManager.setMusicPlayoutVolume(originMusicId,100);
+    audioEffectManager.setMusicPlayoutVolume(accompMusicId,0);
+    audioEffectManager.setMusicPublishVolume(originMusicId,100);
+    audioEffectManager.setMusicPublishVolume(accompMusicId,0);
 }
 ```
