@@ -21,6 +21,12 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
     TXCopyrightedErrorLicenseFail = -8 //License校验不通过
 };
 
+typedef NS_ENUM(NSInteger, TXCMusicType) {
+    TXCMusicTypeOrignal = 0,    // 原唱
+    TXCMusicTypeAccompaniment,  // 伴奏
+    TXCMusicTypeLyrics          // 歌词
+};
+
 @interface TXCopyrightedMedia : NSObject
 
 /// 获取TXCopyrightedMedia单例
@@ -31,6 +37,9 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
 
 /// 是否输出控制台日志
 + (void)enableLog:(BOOL)enable;
+
+/// 获取sdk版本号
++ (NSString *)getSDKVersion;
 
 /// 设置License
 /// @param licenceUrl 控制台生成的licenceUrl
@@ -85,6 +94,8 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
 /// 设置最大歌曲缓存数目，默认100
 /// @param maxCount 歌曲最大数目
 - (void)setMusicCacheMaxCount:(int)maxCount;
+
+
 
 
 
