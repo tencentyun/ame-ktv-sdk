@@ -1,6 +1,0 @@
-framework module TXCopyrightedMedia {
-  umbrella header "TXCopyrightedMedia.h"
-
-  export *
-  module * { export * }
-}
