@@ -12,6 +12,7 @@
 #import "TXCSongScoreConfig.h"
 #import "ITXCMMusicTrack.h"
 #import "TXCMusicInfo.h"
+#import "TXCMMusicExtParams.h"
 
 typedef NS_ENUM(NSInteger, TXCopyrightedError) {
     TXCopyrightedErrorNoError = 0,
@@ -22,7 +23,8 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
     TXCopyrightedErrorInner = -5, // 内部错误
     TXCopyrightedErrorParseFail = -6, // 解析错误
     TXCopyrightedErrorDecryptFail = -7, // 解密错误
-    TXCopyrightedErrorLicenseFail = -8 //License校验不通过
+    TXCopyrightedErrorLicenseFail = -8, //License校验不通过
+    TXCopyrightedErrorChorusNotFound = -10 // 高潮片段(副歌)缺失
 };
 
 typedef NS_ENUM(NSInteger, TXCMusicType) {
@@ -66,37 +68,37 @@ typedef NS_ENUM(NSInteger, TXCMusicType) {
 /// 预加载音乐数据。
 /// @param musicId 歌曲Id
 /// @param playToken 播放Token
-/// @param bitrateDefinition 码率，传nil为改音频默认码率
+/// @param extParams 拓展字段,原有定义不变，比如：audio/default意义不变，表示的是 "音频/默认码率(整曲)"。 对应高潮片段定义为audio/default/chorus。
 /// @param callback 回调结束后响应对象
 - (void)preloadMusic:(NSString *)musicId
-   bitrateDefinition:(NSString *)bitrateDefinition
+           extParams:(NSString *)extParams
            playToken:(NSString *)playToken
             callback:(id<ITXMusicPreloadCallback>)callback;
 
 /// 取消预加载音乐数据。
 /// @param musicId 歌曲Id
-/// @param bitrateDefinition 码率，传nil为改音频默认码率
-- (void)cancelPreloadMusic:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
+/// @param extParams 拓展字段,原有定义不变，比如：audio/default意义不变，表示的是 "音频/默认码率(/整曲)"。 对应高潮片段定义为audio/default/chorus。
+- (void)cancelPreloadMusic:(NSString *)musicId extParams:(NSString *)extParams;
 
 
 /// 检测是否已预加载音乐数据。
 /// @param musicId 歌曲Id
-/// @param bitrateDefinition 码率，传nil为改音频默认码率
-- (BOOL)isMusicPreloaded:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
+/// @param extParams 拓展字段,原有定义不变，比如：audio/default意义不变，表示的是 "音频/默认码率(/整曲)"。 对应高潮片段定义为audio/default/chorus
+- (BOOL)isMusicPreloaded:(NSString *)musicId extParams:(NSString *)extParams;
 
 /// 生成音乐 URI，App客户端，播放时候调用，传给trtc进行播放。与preloadMusic一一对应
 /// @param musicId 歌曲Id
 /// @param bgmType 0：原唱，1：伴奏  2:  歌词
-/// @param bitrateDefinition 码率，传nil为改音频默认码率
+/// @param extParams 码率，传nil为改音频默认码率
 - (NSString *)genMusicURI:(NSString *)musicId
                   bgmType:(TXCMusicType)bgmType
-        bitrateDefinition:(NSString *)bitrateDefinition;
+        extParams:(NSString *)extParams;
 
 /// 清理所有音乐缓存
 - (void)clearMusicCache;
 
 /// 清理对应musicId和biteate的音乐缓存
-- (void)clearMusicCache:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
+- (void)clearMusicCache:(NSString *)musicId extParams:(NSString *)extParams;
 
 /// 设置最大歌曲缓存数目，默认100
 /// @param maxCount 歌曲最大数目

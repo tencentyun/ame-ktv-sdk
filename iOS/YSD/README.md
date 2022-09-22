@@ -1,4 +1,5 @@
 ## 正版版权曲库直通车AME在线KTV解决方案
+
 ## 一、产品概述
 
 版权曲库AME在线KTV联合解决方案深度整合腾讯在音视频深度积累的技术能力以及音乐内容版权上的核心优势产生1+1大于2的化学反应，帮助开发者极速搭建在线KTV业务。
@@ -26,7 +27,7 @@ App后台 ->> 腾讯云后台:请求音乐详情 BatchDescribeKTVMusicDetails（
 腾讯云后台 -->> App后台:返回音乐详情
 App后台 -->> App客户端:返回音乐详情
 
-App客户端 ->> TXCopyrightedMedia:preloadMusic（传入musicId+playToken+bitrateDefinition）
+App客户端 ->> TXCopyrightedMedia:preloadMusic（传入musicId+playToken+extParams）
 TXCopyrightedMedia ->> 腾讯云后台:请求Music数据
 腾讯云后台 -->> TXCopyrightedMedia:返回Music数据
 TXCopyrightedMedia -->> App客户端:回调preloadMusic进度和结果
@@ -40,13 +41,12 @@ App客户端 ->> TXCopyrightedMedia:创建musicTrack，循环read PCM数据进�
 • 注册[腾讯云账号](https://cloud.tencent.com/register?s_url=https%3A%2F%2Fcloud.tencent.com%2F)。<br>
 • 完成[实名认证](https://cloud.tencent.com/document/product/378/3629)。<br>
 
-## 3.2 服务开通
 
-• 正版曲库直通车AME 服务开通：登录[正版曲库直通车AME控制台](https://console.cloud.tencent.com/ame)后，您可在勾选同意[腾讯云服务协议](https://cloud.tencent.com/document/product/301/1967)以及[正版曲库直通车服务协议](https://cloud.tencent.com/document/product/1155/40757)后单击【立即开通】，即可开通服务。<br>
 
-## 3.3 应用创建
+## 3.2 应用创建
 
-您可在左导航栏进入【应用管理】页面，单击“创建应用”按钮，根据弹窗填空提示，填写相应的信息。
+请联系对应的商务经理或曲库的产品经理为您创建曲库的应用。您需要准确提供您的腾讯云APPID（可在腾讯云后台您的账号信息中查看）、应用名称、 Android PackageName、IOS BundleID、应用场景和DAU信息。<br>
+收到您的信息后，曲库将会为您分配用于接入的License和Key。<br>
 
 1. 应用名称：指接入APP应用名称。应用名称涉及版权授权，请准确填写，创建后无法再次修改。
 2. Android PackageName：指接入应用在安卓应用市场的PackageName。请准确填写，创建后无法再次修改。
@@ -54,11 +54,9 @@ App客户端 ->> TXCopyrightedMedia:创建musicTrack，循环read PCM数据进�
 4. 应用场景：请根据接入应用的具体使用场景如实选择(语聊房/直播/FM)。
 5. DAU：请基于接入应用实际情况准确填写。
 
-## 3.4 白名单添加
 
-因产品尚在内测，在正式接入之前，请联系对应商务经理为您添加白名单。
 
-## 3.5 API联调
+## 3.3 API联调
 
 | API名称                      | 描述             | 使用说明   |
 | ---------------------------- | ---------------- | ---------- |
@@ -198,12 +196,13 @@ X-TC-Action: DescribeKTVMusicDetail
 ```
 
 
-## 3.6 SDK接入
+## 3.4 SDK接入
 
-## 3.6.1 集成SDK
-a、集成版权曲库SDK(拷贝TXCopyrightedMedia_PCM_Score.framework)到项目工程中并集成
+## 3.4.1 集成SDK
 
-## 3.6.2 使用SDK
+a、集成版权曲库SDK(拷贝TXCopyrightedMedia.framework)到项目工程中并集成
+
+## 3.4.2 使用SDK
 
 #### 获取TXCopyrightedMedia单例
 
@@ -213,7 +212,7 @@ a、集成版权曲库SDK(拷贝TXCopyrightedMedia_PCM_Score.framework)到项目
 
 **接口**
 
-```java
+```objective-c
 TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 ```
 
@@ -233,8 +232,8 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 
 **参数说明**
 
-| 参数名     | 类型   | 描述                   |
-| ---------- | ------ | ---------------------- |
+| 参数名     | 类型     | 描述                   |
+| ---------- | -------- | ---------------------- |
 | licenseUrl | NSString | 控制台生成的licenseUrl |
 | key        | NSString | 控制台生成的key        |
 
@@ -277,17 +276,17 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 **接口**
 
 ```java
-[copyrightedMedia preloadMusic:musicId bitrateDefinition:bitrateDefinition playToken:playToken callback:self]
+[copyrightedMedia preloadMusic:musicId extParams:extParams playToken:playToken callback:self]
 ```
 
 **参数说明**
 
-| 参数名    | 类型                  | 描述      |
-| --------- | --------------------- | --------- |
-| musicId | NSString              | 歌曲Id |
-| bitrateDefinition | NSString | 码率描述，目前填"audio/default" |
-| playToken | NSString              | 播放Token |
-| callback  | ITXMusicPreloadCallback | 回调代理 |
+| 参数名    | 类型                    | 描述                                                         |
+| --------- | ----------------------- | ------------------------------------------------------------ |
+| musicId   | NSString                | 歌曲Id                                                       |
+| extParams | NSString                | 拓展字段,原有定义不变，比如：audio/default意义不变，表示的是 "音频/默认码率(整曲)"。 对应高潮片段定义为audio/default/chorus。 |
+| playToken | NSString                | 播放Token                                                    |
+| callback  | ITXMusicPreloadCallback | 回调代理                                                     |
 
 
 ```java
@@ -295,14 +294,14 @@ TXCopyrightedMedia *copyrightedMedia = [TXCopyrightedMedia instance];
 
 @optional
 
-- (void)onPreloadStart:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
+- (void)onPreloadStart:(NSString *)musicId extParams:(NSString *)extParams;
 
 - (void)onPreloadProgress:(NSString *)musicId
-  			bitrateDefinition:(NSString *)bitrateDefinition
+  			extParams:(NSString *)extParams
                  progress:(float)progress;
 
 - (void)onPreloadComplete:(NSString *)musicId
-  			bitrateDefinition:(NSString *)bitrateDefinition
+  			extParams:(NSString *)extParams
                 errorCode:(int)errorCode
                       msg:(NSString *)msg;
 
@@ -338,15 +337,15 @@ errorCode返回码定义如下
 **接口**
 
 ```java
-[copyrightedMedia cancelPreloadMusic:musicId bitrateDefinition:bitrateDefinition];
+[copyrightedMedia cancelPreloadMusic:musicId extParams:extParams];
 ```
 
 **参数说明**
 
-| 参数名    | 类型   | 描述      |
-| --------- | ------ | --------- |
-| musicId | NSString | 歌曲Id |
-| bitrateDefinition | NSString | 码率描述，目前填"audio/default" |
+| 参数名    | 类型     | 描述                                                         |
+| --------- | -------- | ------------------------------------------------------------ |
+| musicId   | NSString | 歌曲Id                                                       |
+| extParams | NSString | 拓展字段,原有定义不变，比如：audio/default意义不变，表示的是 "音频/默认码率(整曲)"。 对应高潮片段定义为audio/default/chorus。 |
 
 
 
@@ -359,15 +358,15 @@ errorCode返回码定义如下
 **接口**
 
 ```java
-BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId bitrateDefinition:bitrateDefinition];
+BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId extParams:extParams];
 ```
 
 **参数说明**
 
-| 参数名            | 类型     | 描述                            |
-| ----------------- | -------- | ------------------------------- |
-| musicId           | NSString | 音乐Id                          |
-| bitrateDefinition | NSString | 码率描述，目前填"audio/default" |
+| 参数名    | 类型     | 描述                                                         |
+| --------- | -------- | ------------------------------------------------------------ |
+| musicId   | NSString | 音乐Id                                                       |
+| extParams | NSString | 拓展字段,原有定义不变，比如：audio/default意义不变，表示的是 "音频/默认码率(整曲)"。 对应高潮片段定义为audio/default/chorus。 |
 
 
 
@@ -380,21 +379,21 @@ BOOL isPreloaded = [copyrightedMedia isMusicPreloaded:musicId bitrateDefinition:
 **接口**
 
 ```objective-c
-NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType bitrateDefinition:bitrateDefinition];
+NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType extParams:extParams];
 ```
 
 **参数说明**
 
-| 参数名    | 类型   | 描述                       |
-| --------- | ------ | -------------------------- |
-| musicId | NSString | 歌曲Id                  |
-| musicType   | Int    | 0：原唱，1：伴奏,  2：歌词 |
-| bitrateDefinition | NSString | 码率描述，目前填"audio/default" |
+| 参数名    | 类型     | 描述                                                         |
+| --------- | -------- | ------------------------------------------------------------ |
+| musicId   | NSString | 歌曲Id                                                       |
+| musicType | Int      | 0：原唱，1：伴奏,  2：歌词                                   |
+| extParams | NSString | 拓展字段,原有定义不变，比如：audio/default意义不变，表示的是 "音频/默认码率(整曲)"。 对应高潮片段定义为audio/default/chorus。 |
 
 **返回说明**
 
-| 返回值 | 类型   | 描述                                                         |
-| ------ | ------ | ------------------------------------------------------------ |
+| 返回值   | 类型     | 描述                                                         |
+| -------- | -------- | ------------------------------------------------------------ |
 | musicUri | NSString | 原唱&amp;伴奏：传给TRTC 播放的uri，格式 CopyRightMusic://audiotype=xxxx&musicid=xxxx&bitrate=xxxx；歌词：返回歌词的本地路径 |
 
 
@@ -418,7 +417,7 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType bit
 **接口**
 
 ```java
-[copyrightedMedia clearMusicCahce:musicId bitrateDefinition:@"audio/default"];
+[copyrightedMedia clearMusicCache:musicId extParams:@"audio/default"];
 ```
 
 
@@ -468,7 +467,7 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType bit
 ///【字段含义】0：原唱，1：伴奏
 @property (nonatomic, assign) int musicType;
 ///【字段含义】码率描述，目前填"audio/default"
-@property (nonatomic, copy) NSString *bitrateDefinition;
+@property (nonatomic, copy) NSString *extParams;
 @end
 
 /** 音频帧信息 */
@@ -676,9 +675,10 @@ NSString *musicUri = [copyrightedMedia genMusicURI:musicId bgmType:musicType bit
 
 
 
-## 3.6.3 代码示例
+## 3.4.3 代码示例
 
 application 创建时候调用:
+
 ```java
 [[TXCopyrightedMedia instance] setLicense:licence key:key];
 ```
@@ -702,31 +702,31 @@ application 创建时候调用:
 {
   TXCopyrightedMedia *copyRightedMedia = [TXCopyrightedMedia instance];
   // 判断是否下载过歌曲
-  if([copyRightedMedia isMusicPreloaded:musicId bitrateDefinition:@"audio/lo"]) {
+  if([copyRightedMedia isMusicPreloaded:musicId extParams:@"audio/default"]) {
        [self startPlayMusic];
   }else {
       // 预下载歌曲
-      [copyRightedMedia preloadMusic:musicId bitrateDefinition:@"audio/lo" playToken:playToken callback:self];
+      [copyRightedMedia preloadMusic:musicId extParams:@"audio/default" playToken:playToken callback:self];
   }
 }  
 
 #pragma mark -ITXMusicPreloadCallback
 // 开始下载
-- (void)onPreloadStart:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition
+- (void)onPreloadStart:(NSString *)musicId extParams:(NSString *)extParams
 {
   // 界面提示 Music 开始加载
 }
 
 // 下载进度回调
 - (void)onPreloadProgress:(NSString *)musicId
-        bitrateDefinition:(NSString *)bitrateDefinition
+        extParams:(NSString *)extParams
                  progress:(float)progress
  {
    NSLog(@"onPreloadProgress %@ %@", musicId, @(progress));
  }
 // 下载完成回调
 - (void)onPreloadComplete:(NSString *)musicId
-        bitrateDefinition:(NSString *)bitrateDefinition
+        extParams:(NSString *)extParams
                 errorCode:(int)errorCode
                       msg:(NSString *)msg
 {			// 下载成功或失败
@@ -735,8 +735,8 @@ application 创建时候调用:
 //示例1 使用腾讯TRTC播放音乐
 - (void)startPlayMusic
 {
-    NSString *origintUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:0 bitrateDefinition:@"audio/lo"];//获取原唱 uri
-    NSString *accompUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:1 bitrateDefinition:@"audio/lo"];//获取伴奏 uri
+    NSString *origintUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:0 extParams:@"audio/default"];//获取原唱 uri
+    NSString *accompUri = [[TXCopyrightedMedia instance] genMusicURI:musicId bgmType:1 extParams:@"audio/default"];//获取伴奏 uri
     // 注意，上面的 musicId 是曲库后台接口返回的字符串，用来区分存储在后台的音乐资源
     //      下面的 originMusicId 和 accompMusicId 是 int 型格式，您可以自己设置，
     //      用于 TRTC 的 BGM 播放接口区分不同的音乐使用，保证原唱和伴奏的 id 不同即可

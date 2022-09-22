@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *musicId;
 @property (nonatomic, assign) int musicType; // 0:原唱  1:伴奏
-@property (nonatomic, copy) NSString *bitrateDefinition;
+@property (nonatomic, copy) NSString *extParams;
 
 @end
 

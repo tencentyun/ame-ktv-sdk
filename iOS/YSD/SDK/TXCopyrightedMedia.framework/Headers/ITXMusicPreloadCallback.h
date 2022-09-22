@@ -12,16 +12,16 @@
 @optional
 
 //开始下载回调
-- (void)onPreloadStart:(NSString *)musicId bitrateDefinition:(NSString *)bitrateDefinition;
+- (void)onPreloadStart:(NSString *)musicId extParams:(NSString *)extParams;
 
 //下载进度回调
 - (void)onPreloadProgress:(NSString *)musicId
-        bitrateDefinition:(NSString *)bitrateDefinition
+        extParams:(NSString *)extParams
                  progress:(float)progress;
 
 //下载完成回调
 - (void)onPreloadComplete:(NSString *)musicId
-        bitrateDefinition:(NSString *)bitrateDefinition
+        extParams:(NSString *)extParams
                 errorCode:(int)errorCode
                       msg:(NSString *)msg;
 
