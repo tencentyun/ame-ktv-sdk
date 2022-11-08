@@ -96,6 +96,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// key NSString类: noteHeight，value NSNumber类 UI展示使用音高
 - (NSArray <NSDictionary *> *)getAllGrove;
 
+/// 返回歌曲满分数值
+/// @return 满分值
+- (int)calculateTotalScore;
+
 @end
 
 NS_ASSUME_NONNULL_END
