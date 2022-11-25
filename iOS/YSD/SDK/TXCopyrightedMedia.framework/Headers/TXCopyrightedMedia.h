@@ -33,6 +33,8 @@ typedef NS_ENUM(NSInteger, TXCMusicType) {
     TXCMusicTypeLyrics          // 歌词
 };
 
+static NSString *EXT_INFO_ROOM_ID = @"RoomId";
+
 @interface TXCopyrightedMedia : NSObject
 
 /// 获取TXCopyrightedMedia单例
@@ -111,6 +113,10 @@ typedef NS_ENUM(NSInteger, TXCMusicType) {
 - (id<ITXCSongScore>)createSongScore:(TXCSongScoreConfig *)config;
 
 
+/// 设置上报扩展字段，如：设置直播房间ID，只有在直播场景下，需要传值，计费方式不一样。
+/// @param extName 扩展字段名：如EXT_INFO_ROOM_ID
+/// @param extValue 扩展字段值
+- (void)setExtInfoName:(NSString *)extName extValue:(NSString *)extValue;
 
 @end
 
