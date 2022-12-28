@@ -37,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param songScore 当前回调的打分类
 /// @param timeStamp 间隔时间戳，上一次回调给出去的时间的结束就是这次回调出去时间的起始。
 /// @param isHit 是否命中
-/// @param pitch 用户音高（数值可与note音高对比, -1表示没有音高)
-/// @param viewValue UI展示的音高
+/// @param pitch 在note时间范围内的用户音高（数值可与note音高对比, -1表示不在note时间范围，大于-1表示用户音高)
+/// @param viewValue 用户的实时音高
 - (void)songScoreDidGroveAndHit:(id<ITXCSongScore>)songScore
                       timeStamp:(double)timeStamp
                           isHit:(BOOL)isHit
