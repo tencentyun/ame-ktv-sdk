@@ -50,6 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 准备音频数据，异步回调onPrepared
 - (void)prepare;
 
+/// 准备音频数据，同步耗时接口
+- (void)prepareSync;
+
 /// onPrepared后调用，开始音频解码
 - (void)start;
 

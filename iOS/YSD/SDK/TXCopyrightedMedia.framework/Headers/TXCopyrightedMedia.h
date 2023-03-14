@@ -33,7 +33,10 @@ typedef NS_ENUM(NSInteger, TXCMusicType) {
     TXCMusicTypeLyrics          // 歌词
 };
 
-static NSString *EXT_INFO_ROOM_ID = @"RoomId";
+static NSString *EXT_INFO_ROOM_ID = @"RoomId"; // 房间id
+static NSString *EXT_INFO_PLAY_SCENE = @"PlayScene"; // 播放场景
+static NSString *PLAY_SCENE_CHAT = @"Chat"; // 语聊场景
+static NSString *PLAY_SCENE_LIVE = @"Live"; // 直播场景
 
 @interface TXCopyrightedMedia : NSObject
 

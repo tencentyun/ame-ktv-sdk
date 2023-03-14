@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, TXCMusicClipType) {
 @property (nonatomic, copy) NSString *bitrateDefinition;
 // 片段类型。 yjx目前暂不支持高潮片段
 @property (nonatomic, assign) TXCMusicClipType clipType;
+// 合唱token，除合唱需求外，可不传
+@property (nonatomic, assign) NSString *chorusToken;
 
 // 根据对象设置的码率和类型 获取对应的ExtParams。可传递给TXCopyrightedMedia的相关接口使用
 - (NSString *)getMusicExtParams;
