@@ -27,9 +27,11 @@ TODO: Add long description of the pod here.
   s.source           = { :http => 'https://mediacloud-76607.gzc.vod.tencent-cloud.com/TXCopyrightedMedia/Release/3.5.0/YJX_SDK.zip' }
 
   s.ios.deployment_target = '9.0'
-  
-  s.vendored_frameworks = 'YJX_SDK/*.framework'
-  
+  s.static_framework = true
+  s.vendored_frameworks = 'YJX_SDK/TXCopyrightedMedia.framework'
+  s.public_header_files = 'YJX_SDK/TXCopyrightedMedia.framework/Headers/*.h'
+  s.preserve_paths = 'YJX_SDK/TXCopyrightedMedia.framework'
+  s.source_files = 'YJX_SDK/TXCopyrightedMedia.framework/Headers/*.h'
   s.frameworks = ['CoreTelephony']
   
   s.libraries = "c++"
