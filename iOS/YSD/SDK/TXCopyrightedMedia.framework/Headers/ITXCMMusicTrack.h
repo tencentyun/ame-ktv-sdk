@@ -60,8 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param pts seek时间，单位：ms,  接口会修正传入的pts的值，得到附近精确的pts
 - (void)seek:(int *)pts;
 
-/// 读帧， 读取到的大小，-1代表文件末尾
-- (int)read:(void *)audioData;
 
 /// 读帧， 如果为nil，则为读到末尾
 - (TXCMAudioFrameInfo *)readAudioFrame;
