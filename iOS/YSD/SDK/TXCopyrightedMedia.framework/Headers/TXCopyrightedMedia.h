@@ -30,7 +30,8 @@ typedef NS_ENUM(NSInteger, TXCopyrightedError) {
 typedef NS_ENUM(NSInteger, TXCMusicType) {
     TXCMusicTypeOrignal = 0,    // 原唱
     TXCMusicTypeAccompaniment,  // 伴奏
-    TXCMusicTypeLyrics          // 歌词
+    TXCMusicTypeLyrics,         // 歌词
+    TXCMusicTypeMidi            // Midi音高线
 };
 
 static NSString *EXT_INFO_ROOM_ID = @"RoomId"; // 房间id
